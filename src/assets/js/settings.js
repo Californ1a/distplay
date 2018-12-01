@@ -2,8 +2,9 @@ const remote = require("electron").remote;
 const rq = require("electron-require");
 const isDev = require("electron-is-dev");
 const createPanel = require("settings-panel");
-const settingsTheme = require("settings-panel/theme/control");
+const settingsTheme = require("display-settings-panel-theme");
 const mappings = rq("./assets/js/util/mappings.json");
+
 const buttons2 = [
 	"A",
 	"B",
