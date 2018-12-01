@@ -10,7 +10,7 @@ const map = new Collection();
 
 function loop() {
 	const gamepads = navigator.getGamepads();
-	if (gamepads[0] !== undefined) {
+	if (gamepads[0]) {
 		const gp = gamepads[0];
 		check.buttons(gp.buttons, map);
 		check.sticks(gp.axes, map, 23, 20, 268, 20);
