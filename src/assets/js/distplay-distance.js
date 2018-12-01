@@ -4,36 +4,36 @@ const isDev = rq("electron-is-dev");
 const mappings = rq("./assets/js/util/mappings.json");
 const check = rq("./assets/js/util/check.js");
 const Collection = rq("./assets/js/util/Collection.js");
-let config = rq("./assets/js/util/loadConfig.js").loadConfig();
+const config = rq("./assets/js/util/loadConfig.js").loadConfig();
 
-let map = new Collection();
+const map = new Collection();
 
 function loop() {
-	let gamepads = navigator.getGamepads();
-	if (gamepads[0] != undefined) {
-		let gp = gamepads[0];
+	const gamepads = navigator.getGamepads();
+	if (gamepads[0] !== undefined) {
+		const gp = gamepads[0];
 		check.buttons(gp.buttons, map);
 		check.sticks(gp.axes, map, 23, 20, 268, 20);
 	}
 	window.requestAnimationFrame(loop);
 }
 
-window.onload = function WindowLoad() {
-	let win = remote.getCurrentWindow();
+window.onload = () => {
+	const win = remote.getCurrentWindow();
 	if (!isDev) {
 		win.setContentSize(345, 95);
 	}
-	let allIDs = document.querySelectorAll("*[id]");
+	const allIDs = document.querySelectorAll("*[id]");
 
-	for (let elt of allIDs) {
+	for (const elt of allIDs) {
 		let index;
-		let bind = config.get(`Bindings.${elt.id}`);
+		const bind = config.get(`Bindings.${elt.id}`);
 		if (elt.id.match(/^ls|rs$/i)) {
 			index = mappings[elt.id];
 		} else {
 			index = mappings[bind];
 		}
-		let obj = {
+		const obj = {
 			"id": index,
 			"name": elt.id,
 			"button": (bind) ? bind : elt.id,

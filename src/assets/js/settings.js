@@ -2,6 +2,7 @@ const remote = require("electron").remote;
 const rq = require("electron-require");
 const isDev = require("electron-is-dev");
 const createPanel = require("settings-panel");
+const settingsTheme = require("settings-panel/theme/control");
 const mappings = rq("./assets/js/util/mappings.json");
 const buttons2 = [
 	"A",
@@ -39,14 +40,14 @@ const buttons = {
 	"D-Pad Left": "dleft",
 	"D-Pad Right": "dright"
 };
-let config = rq("./assets/js/util/loadConfig.js");
-let store = config.getStore();
+const config = rq("./assets/js/util/loadConfig.js");
+const store = config.getStore();
 let panel;
 
-let applySettings = () => {
-	let map = {};
-	let settings = panel.get();
-	for (let key in settings) {
+function applySettings() {
+	const map = {};
+	const settings = panel.get();
+	for (const key in settings) {
 		if (!key.match(/^background-color|submit|restore-defaults$/i)) {
 			if (key !== "backgroundColor") {
 				map[key] = buttons[settings[key]];
@@ -56,7 +57,7 @@ let applySettings = () => {
 		}
 	}
 	map.backgroundColor = panel.get("backgroundColor");
-	for (let key in map) {
+	for (const key in map) {
 		console.log(key, map[key]);
 		if (key !== "backgroundColor") {
 			store.set(`Bindings.${key}`, map[key]);
@@ -65,10 +66,10 @@ let applySettings = () => {
 		}
 	}
 	remote.getCurrentWindow().close();
-};
+}
 
-window.onload = function WindowLoad() {
-	let settingsWindow = remote.getCurrentWindow();
+window.onload = () => {
+	const settingsWindow = remote.getCurrentWindow();
 	if (!isDev) {
 		settingsWindow.setContentSize(400, 380);
 	}
@@ -136,7 +137,7 @@ window.onload = function WindowLoad() {
 			applySettings();
 		}
 	}], {
-		theme: require("settings-panel/theme/control"),
+		theme: settingsTheme,
 		palette: ["#222", "white"],
 		title: "Settings",
 		labelWidth: "10em",

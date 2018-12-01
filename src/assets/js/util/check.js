@@ -30,7 +30,7 @@ function dpadOpposite(ele, map) {
 
 function checkButtons(buttons, map) {
 	for (let i = 0; i < Object.keys(mappings).length; i++) {
-		let ele = map.get(i);
+		const ele = map.get(i);
 		if (ele && buttons[i].pressed) {
 			setPressed(ele);
 			if (ele.name.match(/^dup|ddown|dleft|dright$/i)) {

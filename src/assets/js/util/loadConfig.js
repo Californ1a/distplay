@@ -1,7 +1,7 @@
 const rq = require("electron-require");
 const Store = rq("electron-store");
-let store = new Store();
-let Bindings = {
+const store = new Store();
+const Bindings = {
 	"jump": "x",
 	"reset": "select",
 	"grip": "lb",
@@ -35,7 +35,7 @@ function setMissingDefaults() {
 		setAllBindings();
 		return;
 	}
-	for (let elt of Object.keys(Bindings)) {
+	for (const elt of Object.keys(Bindings)) {
 		if (!store.has(`Bindings.${elt}`)) {
 			store.set(`Bindings.${elt}`, Bindings[elt]);
 		}

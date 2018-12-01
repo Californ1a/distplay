@@ -8,7 +8,7 @@ const path = require("path");
 const url = require("url");
 const isDev = require("electron-is-dev");
 const rq = require("electron-require");
-let config = rq("./src/assets/js/util/loadConfig.js").getStore();
+const config = rq("./src/assets/js/util/loadConfig.js").getStore();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -17,7 +17,7 @@ let settingsWindow;
 app.disableHardwareAcceleration();
 
 function loadURL(samePage) {
-	let currentURL = win.webContents.getURL();
+	const currentURL = win.webContents.getURL();
 	let newPage = config.get("Settings.selectedLayout", "distplay");
 	if (!samePage) {
 		newPage = `distplay${(currentURL.includes("distance")) ? "" : "-distance"}`;
@@ -66,7 +66,7 @@ function createWindow() {
 		win = null;
 	});
 
-	let menu = Menu.buildFromTemplate([{
+	const menu = Menu.buildFromTemplate([{
 		label: "Menu",
 		submenu: [{
 			label: "Switch Layout",

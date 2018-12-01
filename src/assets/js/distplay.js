@@ -6,28 +6,28 @@ const check = rq("./assets/js/util/check.js");
 const Collection = rq("./assets/js/util/Collection.js");
 rq("./assets/js/util/loadConfig.js").loadConfig();
 
-let map = new Collection();
+const map = new Collection();
 
 function loop() {
-	let gamepads = navigator.getGamepads();
-	if (gamepads[0] != undefined) {
-		let gp = gamepads[0];
+	const gamepads = navigator.getGamepads();
+	if (gamepads[0] !== undefined) {
+		const gp = gamepads[0];
 		check.buttons(gp.buttons, map);
 		check.sticks(gp.axes, map, 23, 52, 278, 52);
 	}
 	window.requestAnimationFrame(loop);
 }
 
-window.onload = function WindowLoad() {
-	let win = remote.getCurrentWindow();
+window.onload = () => {
+	const win = remote.getCurrentWindow();
 	if (!isDev) {
 		win.setContentSize(355, 155);
 	}
-	let allIDs = document.querySelectorAll("*[id]");
+	const allIDs = document.querySelectorAll("*[id]");
 
-	for (let elt of allIDs) {
-		let index = mappings[elt.id];
-		let obj = {
+	for (const elt of allIDs) {
+		const index = mappings[elt.id];
+		const obj = {
 			"id": index,
 			"name": elt.id,
 			"element": elt
