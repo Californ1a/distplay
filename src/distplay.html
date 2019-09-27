@@ -15,8 +15,15 @@
 	<div id="rs" class="stick" style="position: absolute; top: 52px; left: 278px"></div>
 	<!-- Bumpers and triggers -->
 	<div class="btnswrapper">
-		<div id="lt" class="button" style="position: absolute; top: 12px; left: 10px">LT</div>
-		<div id="rt" class="button" style="position: absolute; top: 12px; left: 275px">RT</div>
+		<div id="ltback" class="unpressed button" style="position: absolute; top: 12px; left: 10px; z-index: -1"></div>
+		<div id="lt" class="pressed button" style="position: absolute; top: 12px; left: 10px; width: 0; z-index: 0"></div>
+		<div id="lttext" class="button" style="position: absolute; top: 12px; left: 10px; z-index: 1; background: none">LT</div>
+		<div id="rtback" class="unpressed button" style="position: absolute; top: 12px; left: 275px; z-index: -1"></div>
+		<div id="rt" class="pressed button" style="position: absolute; top: 12px; left: 275px; width: 0; z-index: 0"></div>
+		<div id="rttext" class="button" style="position: absolute; top: 12px; left: 275px; z-index: 1; background: none">RT</div>
+
+		<!-- <div id="lt" class="button" style="position: absolute; top: 12px; left: 10px">LT</div>
+		<div id="rt" class="button" style="position: absolute; top: 12px; left: 275px">RT</div> -->
 		<div id="lb" class="bumper" style="position: absolute; top: 12px; left: 85px">LB</div>
 		<div id="rb" class="bumper" style="position: absolute; top: 12px; left: 180px">RB</div>
 		<!-- Dpad -->

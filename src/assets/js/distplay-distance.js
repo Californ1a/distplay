@@ -12,7 +12,7 @@ function loop() {
 	const gamepads = navigator.getGamepads();
 	if (gamepads[0]) {
 		const gp = gamepads[0];
-		check.buttons(gp.buttons, map);
+		check.buttons(gp.buttons, map, 1);
 		check.sticks(gp.axes, map, 23, 20, 268, 20);
 	}
 	window.requestAnimationFrame(loop);

@@ -28,16 +28,30 @@ function dpadOpposite(ele, map) {
 	return opposite;
 }
 
-function checkButtons(buttons, map) {
+function checkButtons(buttons, map, type) {
 	for (let i = 0; i < Object.keys(mappings).length; i++) {
 		const ele = map.get(i);
 		if (ele && buttons[i].pressed) {
-			setPressed(ele);
+			if (ele.name.match(/^rt|lt$/i) && !type) {
+				ele.element.style.width = `${buttons[i].value*70}px`;
+				if (ele.name === "lt") {
+					ele.element.style.left = `${80-buttons[i].value*70}px`;
+				}
+			} else {
+				setPressed(ele);
+			}
 			if (ele.name.match(/^dup|ddown|dleft|dright$/i)) {
 				rmPressed(dpadOpposite(ele, map));
 			}
 		} else if (ele) {
-			rmPressed(ele);
+			if (ele.name.match(/^rt|lt$/i) && !type) {
+				ele.element.style.width = "0";
+				// if (ele.name === "lt") {
+				// 	ele.element.style.left = "auto";
+				// }
+			} else {
+				rmPressed(ele);
+			}
 		}
 	}
 }
