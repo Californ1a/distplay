@@ -41,6 +41,7 @@ function createWindow() {
 	win = new BrowserWindow({
 		icon: path.join(__dirname, "src/assets/images/favicon.png"),
 		useContentSize: true,
+		// autoHideMenuBar: true,
 		backgroundColor: "#000",
 		width: w,
 		height: h
@@ -134,6 +135,23 @@ function createWindow() {
 	}]);
 
 	Menu.setApplicationMenu(menu);
+
+	win.webContents.on("context-menu", (e) => {
+		e.preventDefault();
+		// rightClickPosition = {
+		// 	x: e.x,
+		// 	y: e.y
+		// };
+		const size = win.getContentSize();
+		if (win.isMenuBarVisible()) {
+			win.setMenuBarVisibility(false);
+			win.setContentSize(size[0], size[1]);
+		} else {
+			win.setMenuBarVisibility(true);
+			win.setContentSize(size[0], size[1]);
+		}
+	});
+
 }
 
 // This method will be called when Electron has finished
