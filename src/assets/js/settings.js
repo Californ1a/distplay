@@ -146,3 +146,7 @@ window.onload = () => {
 		container: document.getElementById("panel")
 	});
 };
+
+document.addEventListener("contextmenu", (e) => {
+	e.preventDefault();
+});
