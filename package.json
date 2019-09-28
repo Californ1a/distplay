@@ -30,6 +30,7 @@
 	},
 	"dependencies": {
 		"distplay-settings-panel-theme": "github:Californ1a/distplay-settings-panel-theme",
+		"electron-context-menu": "^0.15.0",
 		"electron-is-dev": "^0.3.0",
 		"electron-require": "^0.3.0",
 		"electron-store": "^1.3.0",

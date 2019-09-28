@@ -4,6 +4,7 @@ const {
 	Menu
 } = require("electron");
 const shell = require("electron").shell;
+const contextMenu = require("electron-context-menu");
 const path = require("path");
 const url = require("url");
 const isDev = require("electron-is-dev");
@@ -47,6 +48,8 @@ function createWindow() {
 		height: h
 	});
 
+	win.setMenuBarVisibility(false);
+
 	// and load the index.html of the app.
 	win.loadURL(url.format({
 		pathname: path.join(__dirname, `src/${config.get("Settings.selectedLayout", "distplay")}.html`),
@@ -67,9 +70,8 @@ function createWindow() {
 		win = null;
 	});
 
-	const menu = Menu.buildFromTemplate([{
-		label: "Menu",
-		submenu: [{
+	contextMenu({
+		prepend: () => [{
 			label: "Switch Layout",
 			click() {
 				loadURL();
@@ -114,14 +116,6 @@ function createWindow() {
 		}, {
 			type: "separator"
 		}, {
-			label: "Exit",
-			click() {
-				app.quit();
-			}
-		}]
-	}, {
-		label: "Help",
-		submenu: [{
 			label: "About",
 			click() {
 				shell.openExternal("https://github.com/TntMatthew/distplay#readme");
@@ -131,27 +125,15 @@ function createWindow() {
 			click() {
 				shell.openExternal("https://github.com/TntMatthew/distplay/issues");
 			}
+		}, {
+			type: "separator"
+		}, {
+			label: "Exit",
+			click() {
+				app.quit();
+			}
 		}]
-	}]);
-
-	Menu.setApplicationMenu(menu);
-
-	win.webContents.on("context-menu", (e) => {
-		e.preventDefault();
-		// rightClickPosition = {
-		// 	x: e.x,
-		// 	y: e.y
-		// };
-		const size = win.getContentSize();
-		if (win.isMenuBarVisible()) {
-			win.setMenuBarVisibility(false);
-			win.setContentSize(size[0], size[1]);
-		} else {
-			win.setMenuBarVisibility(true);
-			win.setContentSize(size[0], size[1]);
-		}
 	});
-
 }
 
 // This method will be called when Electron has finished
