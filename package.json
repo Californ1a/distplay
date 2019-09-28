@@ -16,14 +16,14 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/TntMatthew/distplay.git"
+		"url": "git+https://github.com/Californ1a/distplay.git"
 	},
 	"author": "TntMatthew",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/TntMatthew/distplay/issues"
+		"url": "https://github.com/Californ1a/distplay/issues"
 	},
-	"homepage": "https://github.com/TntMatthew/distplay#readme",
+	"homepage": "https://github.com/Californ1a/distplay#readme",
 	"devDependencies": {
 		"electron": "^3.0.10",
 		"electron-zip-packager": "^4.0.2"
