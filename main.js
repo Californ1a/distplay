@@ -9,6 +9,9 @@ const url = require("url");
 const isDev = require("electron-is-dev");
 const rq = require("electron-require");
 const config = rq("./src/assets/js/util/loadConfig.js").getStore();
+require("update-electron-app")({
+	updateInterval: "1 hour"
+});
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
