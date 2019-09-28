@@ -1,7 +1,6 @@
 const {
 	app,
-	BrowserWindow,
-	Menu
+	BrowserWindow
 } = require("electron");
 const shell = require("electron").shell;
 const contextMenu = require("electron-context-menu");
@@ -114,16 +113,21 @@ function createWindow() {
 				settingsWindow.show();
 			}
 		}, {
+			label: "Toggle Always-On-Top",
+			click() {
+				win.setAlwaysOnTop(!win.isAlwaysOnTop());
+			}
+		}, {
 			type: "separator"
 		}, {
 			label: "About",
 			click() {
-				shell.openExternal("https://github.com/TntMatthew/distplay#readme");
+				shell.openExternal("https://github.com/Californ1a/distplay#readme");
 			}
 		}, {
 			label: "Report Bug",
 			click() {
-				shell.openExternal("https://github.com/TntMatthew/distplay/issues");
+				shell.openExternal("https://github.com/Californ1a/distplay/issues");
 			}
 		}, {
 			type: "separator"
