@@ -1,9 +1,10 @@
 const {
 	app,
-	BrowserWindow
+	BrowserWindow,
+	Menu
 } = require("electron");
 const shell = require("electron").shell;
-const contextMenu = require("electron-context-menu");
+const ipc = require("electron").ipcMain;
 const path = require("path");
 const url = require("url");
 const isDev = require("electron-is-dev");
@@ -17,6 +18,7 @@ require("update-electron-app")({
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 let settingsWindow;
+let gamepads;
 app.disableHardwareAcceleration();
 
 function loadURL(samePage) {
@@ -33,11 +35,123 @@ function loadURL(samePage) {
 	}));
 }
 
+function getGamepads() {
+	// win.webContents.send("refreshGamepads");
+	const submenu = [];
+	if (gamepads && gamepads[0]) {
+		for (const gamepad of gamepads) {
+			submenu.push({
+				label: `${(config.get("Settings.selectedGamepad", gamepad)===gamepad)?"✓ ":""}${gamepad}`,
+				click() {
+					config.set("Settings.selectedGamepad", gamepad);
+					loadURL(true);
+				}
+			});
+		}
+	}
+	if (submenu[0]) {
+		return submenu;
+	} else {
+		return [{
+			label: "No gamepads found.",
+			enabled: false
+		}];
+	}
+}
+
+function createContextMenu() {
+	// contextMenu({
+	// 	prepend: () => [{
+	const menu = Menu.buildFromTemplate([{
+		label: "Switch Layout",
+		click() {
+			loadURL();
+		}
+	}, {
+		label: "Settings",
+		click() {
+			const modalPath = url.format({
+				pathname: path.join(__dirname, "src/settings.html"),
+				protocol: "file:",
+				slashes: true
+			});
+			let wi = 400;
+			let he = 380;
+			if (!isDev) {
+				wi = 1280;
+				he = 720;
+			}
+			settingsWindow = new BrowserWindow({
+				alwaysOnTop: true,
+				icon: path.join(__dirname, "src/assets/images/favicon.png"),
+				useContentSize: true,
+				frame: false,
+				transparent: true,
+				width: wi,
+				height: he
+			});
+			settingsWindow.on("closed", () => {
+				//Automatically refresh active page to apply new config when settings window closes
+				if (win) {
+					loadURL(true);
+				}
+				settingsWindow = null;
+			});
+			settingsWindow.loadURL(modalPath);
+			settingsWindow.setMenu(null);
+			if (!isDev) {
+				settingsWindow.webContents.openDevTools();
+			}
+			settingsWindow.show();
+		}
+	}, {
+		label: "Toggle Always-On-Top",
+		click() {
+			win.setAlwaysOnTop(!win.isAlwaysOnTop());
+		}
+	}, {
+		type: "separator"
+	}, {
+		label: "Gamepads",
+		submenu: getGamepads()
+	}, {
+		label: "Refresh Gamepads",
+		click() {
+			win.webContents.send("refreshGamepads");
+		}
+	}, {
+		type: "separator"
+	}, {
+		label: "About",
+		click() {
+			shell.openExternal("https://github.com/Californ1a/distplay#readme");
+		}
+	}, {
+		label: "Report Bug",
+		click() {
+			shell.openExternal("https://github.com/Californ1a/distplay/issues");
+		}
+	}, {
+		type: "separator"
+	}, {
+		label: "Exit",
+		click() {
+			app.quit();
+		}
+	}]);
+
+	menu.popup({
+		window: win
+	});
+	// 	}]
+	// });
+}
+
 function createWindow() {
 	// Create the browser window.
 	let w = 355;
 	let h = 155;
-	if (isDev) {
+	if (!isDev) {
 		w = 800;
 		h = 600;
 	}
@@ -60,7 +174,7 @@ function createWindow() {
 	}));
 
 	// Open the DevTools.
-	if (isDev) {
+	if (!isDev) {
 		win.webContents.openDevTools();
 	}
 	// Emitted when the window is closed.
@@ -72,75 +186,12 @@ function createWindow() {
 		win = null;
 	});
 
-	contextMenu({
-		prepend: () => [{
-			label: "Switch Layout",
-			click() {
-				loadURL();
-			}
-		}, {
-			label: "Settings",
-			click() {
-				const modalPath = url.format({
-					pathname: path.join(__dirname, "src/settings.html"),
-					protocol: "file:",
-					slashes: true
-				});
-				let wi = 400;
-				let he = 380;
-				if (isDev) {
-					wi = 1280;
-					he = 720;
-				}
-				settingsWindow = new BrowserWindow({
-					alwaysOnTop: true,
-					icon: path.join(__dirname, "src/assets/images/favicon.png"),
-					useContentSize: true,
-					frame: false,
-					transparent: true,
-					width: wi,
-					height: he
-				});
-				settingsWindow.on("closed", () => {
-					//Automatically refresh active page to apply new config when settings window closes
-					if (win) {
-						loadURL(true);
-					}
-					settingsWindow = null;
-				});
-				settingsWindow.loadURL(modalPath);
-				settingsWindow.setMenu(null);
-				if (isDev) {
-					settingsWindow.webContents.openDevTools();
-				}
-				settingsWindow.show();
-			}
-		}, {
-			label: "Toggle Always-On-Top",
-			click() {
-				win.setAlwaysOnTop(!win.isAlwaysOnTop());
-			}
-		}, {
-			type: "separator"
-		}, {
-			label: "About",
-			click() {
-				shell.openExternal("https://github.com/Californ1a/distplay#readme");
-			}
-		}, {
-			label: "Report Bug",
-			click() {
-				shell.openExternal("https://github.com/Californ1a/distplay/issues");
-			}
-		}, {
-			type: "separator"
-		}, {
-			label: "Exit",
-			click() {
-				app.quit();
-			}
-		}]
+	win.webContents.on("context-menu", (e, p) => {
+		createContextMenu(p.x, p.y);
 	});
+
+	// createContextMenu();
+
 }
 
 // This method will be called when Electron has finished
@@ -167,3 +218,8 @@ app.on("activate", () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+ipc.on("update-gamepads", (event, arg) => {
+	gamepads = arg;
+	// win.webContents.send("mainReply", arg);
+	// createContextMenu();
+});
