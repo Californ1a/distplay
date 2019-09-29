@@ -77,7 +77,7 @@ function createContextMenu() {
 			});
 			let wi = 400;
 			let he = 380;
-			if (!isDev) {
+			if (isDev) {
 				wi = 1280;
 				he = 720;
 			}
@@ -99,7 +99,7 @@ function createContextMenu() {
 			});
 			settingsWindow.loadURL(modalPath);
 			settingsWindow.setMenu(null);
-			if (!isDev) {
+			if (isDev) {
 				settingsWindow.webContents.openDevTools();
 			}
 			settingsWindow.show();
@@ -151,7 +151,7 @@ function createWindow() {
 	// Create the browser window.
 	let w = 355;
 	let h = 155;
-	if (!isDev) {
+	if (isDev) {
 		w = 800;
 		h = 600;
 	}
@@ -174,7 +174,7 @@ function createWindow() {
 	}));
 
 	// Open the DevTools.
-	if (!isDev) {
+	if (isDev) {
 		win.webContents.openDevTools();
 	}
 	// Emitted when the window is closed.

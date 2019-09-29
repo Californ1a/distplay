@@ -39,7 +39,7 @@ function loop() {
 
 window.onload = () => {
 	const win = remote.getCurrentWindow();
-	if (isDev) {
+	if (!isDev) {
 		win.setContentSize(355, 155);
 	}
 	const allIDs = document.querySelectorAll("*[id]");
