@@ -13,6 +13,11 @@ const config = rq("./src/assets/js/util/loadConfig.js").getStore();
 require("update-electron-app")({
 	updateInterval: "1 hour"
 });
+// const server = "https://update.electronjs.org";
+// const feed = `${server}/OWNER/REPO/${process.platform}-${process.arch}/${app.getVersion()}`;
+// console.log(app.getVersion());
+// autoUpdater.setFeedURL(feed);
+// autoUpdater.checkForUpdates();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.

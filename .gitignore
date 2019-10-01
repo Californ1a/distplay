@@ -45,15 +45,6 @@ Desktop.ini
 desktop.ini
 
 # Packaged releases
-distplay-linux-arm64
-distplay-linux-armv7l
-distplay-linux-ia32
-distplay-linux-mips64el
-distplay-linux-x64
-distplay-win32-ia32
-distplay-win32-x64
-distplay-darwin-x64
-build
-dist
+dist/*
 
 # Other

@@ -5,20 +5,34 @@
 	"main": "main.js",
 	"scripts": {
 		"start": "electron .",
-		"pack:win": "electron-zip-packager ./ --platform=win32 --arch=x64 --overwrite --ignore=build --out=dist --icon=build/icon.ico",
 		"pack:mac": "electron-zip-packager ./ --platform=darwin --arch=x64 --overwrite --ignore=build --out=dist --icon=build/icon.ico",
-		"pack:linux": "electron-zip-packager ./ --platform=linux --arch=x64 --overwrite --ignore=build --out=dist --icon=build/icon.png",
-		"build": "npm run pack:win && npm run pack:mac && npm run pack:linux"
+		"pack": "electron-builder --dir",
+		"dist": "electron-builder -wl && npm run pack:mac"
 	},
 	"build": {
 		"appId": "com.distplay.app",
-		"productName": "Distplay"
+		"productName": "Distplay",
+		"mac": {
+			"category": "public.app-category.utilities",
+			"target": "dmg"
+		},
+		"linux": {
+			"target": "snap",
+			"category": "Utility"
+		},
+		"win": {
+			"target": "nsis"
+		},
+		"nsis": {
+			"oneClick": false,
+			"allowToChangeInstallationDirectory": true
+		}
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/Californ1a/distplay.git"
 	},
-	"author": "TntMatthew & Californ1a",
+	"author": "Californ1a",
 	"license": "ISC",
 	"bugs": {
 		"url": "https://github.com/Californ1a/distplay/issues"
@@ -26,6 +40,7 @@
 	"homepage": "https://github.com/Californ1a/distplay#readme",
 	"devDependencies": {
 		"electron": "^3.0.10",
+		"electron-builder": "^21.2.0",
 		"electron-zip-packager": "^4.0.2"
 	},
 	"dependencies": {
