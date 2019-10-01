@@ -26,6 +26,20 @@ let settingsWindow;
 let gamepads;
 app.disableHardwareAcceleration();
 
+const shouldQuit = app.makeSingleInstance(() => {
+	// Someone tried to run a second instance, we should focus our window.
+	if (win) {
+		if (win.isMinimized()) {
+			win.restore();
+		}
+		win.focus();
+	}
+});
+
+if (shouldQuit) {
+	app.quit();
+}
+
 function loadURL(samePage) {
 	const currentURL = win.webContents.getURL();
 	let newPage = config.get("Settings.selectedLayout", "distplay");
