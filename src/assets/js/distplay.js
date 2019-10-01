@@ -42,6 +42,7 @@ window.onload = () => {
 	if (!isDev) {
 		win.setContentSize(355, 155);
 	}
+	document.title = `Distplay ${remote.app.getVersion()}`;
 	const allIDs = document.querySelectorAll("*[id]");
 
 	for (const elt of allIDs) {
