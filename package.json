@@ -12,16 +12,14 @@
 	"build": {
 		"appId": "com.distplay.app",
 		"productName": "Distplay",
-		"mac": {
-			"category": "public.app-category.utilities",
-			"target": "dmg"
-		},
 		"linux": {
 			"target": "snap",
-			"category": "Utility"
+			"category": "Utility",
+			"publish": ["github"]
 		},
 		"win": {
-			"target": "nsis"
+			"target": "nsis",
+			"publish": ["github"]
 		},
 		"nsis": {
 			"oneClick": false,
@@ -46,8 +44,10 @@
 	"dependencies": {
 		"distplay-settings-panel-theme": "github:Californ1a/distplay-settings-panel-theme",
 		"electron-is-dev": "^0.3.0",
+		"electron-log": "^3.0.8",
 		"electron-require": "^0.3.0",
 		"electron-store": "^1.3.0",
+		"electron-updater": "^4.1.2",
 		"settings-panel": "^1.8.17",
 		"update-electron-app": "^1.5.0"
 	}
