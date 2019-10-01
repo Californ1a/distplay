@@ -7,7 +7,7 @@
 		"start": "electron .",
 		"pack:mac": "electron-zip-packager ./ --platform=darwin --arch=x64 --overwrite --ignore=build --out=dist --icon=build/icon.ico",
 		"pack": "electron-builder --dir",
-		"dist": "electron-builder -wl && npm run pack:mac"
+		"dist": "del /Q /F dist && electron-builder -wl && npm run pack:mac"
 	},
 	"build": {
 		"appId": "com.distplay.app",
