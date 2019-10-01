@@ -1,6 +1,6 @@
 {
 	"name": "distplay",
-	"version": "1.6.2",
+	"version": "1.6.3",
 	"description": "input display",
 	"main": "main.js",
 	"scripts": {
