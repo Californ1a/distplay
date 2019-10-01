@@ -1,6 +1,6 @@
 {
 	"name": "distplay",
-	"version": "1.6.0",
+	"version": "1.6.1",
 	"description": "input display",
 	"main": "main.js",
 	"scripts": {
@@ -15,11 +15,15 @@
 		"linux": {
 			"target": "snap",
 			"category": "Utility",
-			"publish": ["github"]
+			"publish": [
+				"github"
+			]
 		},
 		"win": {
 			"target": "nsis",
-			"publish": ["github"]
+			"publish": [
+				"github"
+			]
 		},
 		"nsis": {
 			"oneClick": false,
