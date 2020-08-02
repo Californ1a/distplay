@@ -8,8 +8,9 @@ const ipc = require("electron").ipcMain;
 const path = require("path");
 const url = require("url");
 const isDev = require("electron-is-dev");
-const rq = require("electron-require");
-const config = rq("./src/assets/js/util/loadConfig.js").getStore();
+// const rq = require("electron-require");
+const appPath = app.getAppPath();
+const config = require(path.resolve(appPath, "./src/assets/js/util/loadConfig.js")).getStore();
 // require("update-electron-app")();
 
 const {
@@ -26,18 +27,20 @@ let settingsWindow;
 let gamepads;
 app.disableHardwareAcceleration();
 
-const shouldQuit = app.makeSingleInstance(() => {
-	// Someone tried to run a second instance, we should focus our window.
-	if (win) {
-		if (win.isMinimized()) {
-			win.restore();
-		}
-		win.focus();
-	}
-});
+const shouldQuit = app.requestSingleInstanceLock();
 
-if (shouldQuit) {
+if (!shouldQuit) {
 	app.quit();
+} else {
+	app.on("second-instance", () => {
+		// Someone tried to run a second instance, we should focus our window.
+		if (win) {
+			if (win.isMinimized()) {
+				win.restore();
+			}
+			win.focus();
+		}
+	});
 }
 
 function loadURL(samePage) {
@@ -107,7 +110,11 @@ function createContextMenu() {
 				frame: false,
 				transparent: true,
 				width: wi,
-				height: he
+				height: he,
+				webPreferences: {
+					nodeIntegration: true,
+					enableRemoteModule: true
+				}
 			});
 			settingsWindow.on("closed", () => {
 				//Automatically refresh active page to apply new config when settings window closes
@@ -180,7 +187,11 @@ function createWindow() {
 		// autoHideMenuBar: true,
 		backgroundColor: "#000",
 		width: w,
-		height: h
+		height: h,
+		webPreferences: {
+			nodeIntegration: true,
+			enableRemoteModule: true
+		}
 	});
 
 	win.setMenuBarVisibility(false);

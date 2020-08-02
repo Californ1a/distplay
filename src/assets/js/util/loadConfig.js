@@ -1,5 +1,4 @@
-const rq = require("electron-require");
-const Store = rq("electron-store");
+const Store = require("electron-store");
 const store = new Store();
 const Bindings = {
 	"jump": "x",

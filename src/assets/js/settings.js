@@ -1,9 +1,11 @@
 const remote = require("electron").remote;
-const rq = require("electron-require");
 const isDev = require("electron-is-dev");
 const createPanel = require("settings-panel");
 const settingsTheme = require("distplay-settings-panel-theme");
-const mappings = rq("./assets/js/util/mappings.json");
+const path = require("path");
+const appPath = remote.app.getAppPath();
+const mappings = require(path.resolve(appPath, "./src/assets/js/util/mappings.json"));
+const config = require(path.resolve(appPath, "./src/assets/js/util/loadConfig.js"));
 
 const buttons2 = [
 	"A",
@@ -41,7 +43,6 @@ const buttons = {
 	"D-Pad Left": "dleft",
 	"D-Pad Right": "dright"
 };
-const config = rq("./assets/js/util/loadConfig.js");
 const store = config.getStore();
 let panel;
 

@@ -1,11 +1,12 @@
 const remote = require("electron").remote;
 const ipc = require("electron").ipcRenderer;
-const rq = require("electron-require");
-const isDev = rq("electron-is-dev");
-const mappings = rq("./assets/js/util/mappings.json");
-const check = rq("./assets/js/util/check.js");
-const Collection = rq("./assets/js/util/Collection.js");
-const config = rq("./assets/js/util/loadConfig.js").loadConfig();
+const isDev = require("electron-is-dev");
+const path = require("path");
+const appPath = remote.app.getAppPath();
+const mappings = require(path.resolve(appPath, "./src/assets/js/util/mappings.json"));
+const check = require(path.resolve(appPath, "./src/assets/js/util/check.js"));
+const Collection = require(path.resolve(appPath, "./src/assets/js/util/Collection.js"));
+const config = require(path.resolve(appPath, "./src/assets/js/util/loadConfig.js")).loadConfig();
 
 let msgSent = false;
 const map = new Collection();
@@ -31,7 +32,7 @@ function loop() {
 			}
 		}
 		check.buttons(gp.buttons, map);
-		check.sticks(gp.axes, map, 23, 52, 278, 52);
+		check.sticks(gp.axes, map, 23, 20, 268, 20);
 	}
 	window.requestAnimationFrame(loop);
 }

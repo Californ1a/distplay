@@ -1,5 +1,7 @@
-const rq = require("electron-require");
-const mappings = rq("./assets/js/util/mappings.json");
+const remote = require("electron").remote;
+const path = require("path");
+const appPath = remote.app.getAppPath();
+const mappings = require(path.resolve(appPath, "./src/assets/js/util/mappings.json"));
 
 function setPressed(ele) {
 	(ele.name.match(/^ls|rs$/i)) ? ele.element.classList.add("stickpressed"): ele.element.classList.add("pressed");

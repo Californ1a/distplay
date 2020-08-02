@@ -1,12 +1,14 @@
 const remote = require("electron").remote;
 const ipc = require("electron").ipcRenderer;
-const rq = require("electron-require");
-const isDev = rq("electron-is-dev");
-const mappings = rq("./assets/js/util/mappings.json");
-const check = rq("./assets/js/util/check.js");
-const Collection = rq("./assets/js/util/Collection.js");
-rq("./assets/js/util/loadConfig.js").loadConfig();
-const config = rq("./assets/js/util/loadConfig.js").getStore();
+const isDev = require("electron-is-dev");
+const path = require("path");
+const appPath = remote.app.getAppPath();
+const mappings = require(path.resolve(appPath, "./src/assets/js/util/mappings.json"));
+const check = require(path.resolve(appPath, "./src/assets/js/util/check.js"));
+const Collection = require(path.resolve(appPath, "./src/assets/js/util/Collection.js"));
+const Config = require(path.resolve(appPath, "./src/assets/js/util/loadConfig.js"));
+Config.loadConfig();
+const config = Config.getStore();
 
 let msgSent = false;
 const map = new Collection();
